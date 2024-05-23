@@ -78,7 +78,7 @@
       return;
     }
     try {
-      const response = await fetch("url", {
+      const response = await fetch("https://sheetdb.io/api/v1/odjc84c2k7kvc", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -134,24 +134,24 @@
 {#if showModal}
   <!-- Modal -->
   <div
-    class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50"
+    class="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50"
   >
     <!-- Contenedor del contenido del modal -->
-    <div class="bg-white p-6 rounded shadow-lg">
-      <h2 class="text-lg font-bold mb-4">Mensaje</h2>
+    <div class="bg-white p-8 rounded-xl shadow-lg w-96 z-50">
+      <h2 class="text-lg font-bold mb-4">Message</h2>
 
       <!-- Mensajes condicionados -->
       {#if successMessage}
         <p class="mb-4">
-          The data has been sent correctly We will be contacting you soon!
+          The data has been sent correctly. We will be contacting you soon!
         </p>
-      {:else if isServicesEmpty}
+      {:else if isServicesEmpty && registers.name && registers.last_name && registers.email && registers.phone && registers.message}
         <p class="mb-4">Please select at least one service!</p>
-      {:else}
+      {:else if !(registers.name && registers.last_name && registers.email && registers.phone && registers.message)}
         <p class="mb-4">Please complete all fields!</p>
       {/if}
       <button
-        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg focus:outline-none focus:shadow-outline"
         on:click={handleCloseModal}
       >
         OK
@@ -377,7 +377,7 @@
     <div class="mb-4">
       <!-- Selección de servicios -->
       <label class="block text-white text-sm font-bold mb-2" for="services"
-        >Services</label
+        >Filter by category</label
       >
       <select
         class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -393,6 +393,9 @@
     </div>
     <div class="mb-4">
       <!-- Lista de servicios filtrados con checkbox -->
+      <label class="block text-white text-sm font-bold mb-2" for="services"
+        >Services</label
+      >
       {#each filteredServices as service}
         <div class="mb-2 relative">
           <input
